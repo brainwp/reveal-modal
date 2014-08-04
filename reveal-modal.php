@@ -35,6 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 
     require_once plugin_dir_path( __FILE__ ) . 'inc/options.php' ;
+    require_once plugin_dir_path( __FILE__ ) . 'inc/metabox.php' ;
     //new Add_Gift_Wrap_Options();
 }
 

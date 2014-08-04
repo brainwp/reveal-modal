@@ -504,17 +504,28 @@ class Odin_Metabox {
             $value = isset( $_POST[ $name ] ) ? $_POST[ $name ] : null;
 
             if ( ! in_array( $field['type'], array( 'separator', 'title' ) ) ) {
-                if($name == 'is_reveal_modal' && $value == 'True'){
-
+                if($name == 'is_reveal_modal' && $value == 'true'){
+                    $_post = get_post($post_id);
+                    if(strpos($_post->post_name, '-I4I999') == false){
+                        global $wpdb;
+                        $_post_name = $_post->post_name . '-I4I999';
+                        $_table = 'wp_posts';
+                        if ( is_multisite() ) {
+                            $_table = 'wp_'.get_current_blog_id().'_posts';
+                        }
+                        $wpdb->update($_table, array('post_name'=>$_post_name), array('id'=>$post_id));
+                    }
                 }
-                $old = get_post_meta( $post_id, $name, true );
+                else{
+                    $old = get_post_meta( $post_id, $name, true );
 
-                $new = apply_filters( 'odin_save_metabox_' . $this->id, $value, $name );
+                    $new = apply_filters( 'odin_save_metabox_' . $this->id, $value, $name );
 
-                if ( $new && $new != $old ) {
-                    update_post_meta( $post_id, $name, $new );
-                } elseif ( '' == $new && $old ) {
-                    delete_post_meta( $post_id, $name, $old );
+                    if ( $new && $new != $old ) {
+                        update_post_meta( $post_id, $name, $new );
+                    } elseif ( '' == $new && $old ) {
+                        delete_post_meta( $post_id, $name, $old );
+                    }
                 }
             }
         }
