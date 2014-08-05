@@ -27,16 +27,51 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if (!defined('WPINC')) {
 	die;
 }
 
 
-if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+class Reveal_Modal_Plugin
+{
+	public function __construct()
+	{
+		$this->admin_init(); //call function to init metabox and options
+		register_activation_hook(__FILE__, array($this, 'install')); //call function to install the plugin
+		register_uninstall_hook(__FILE__, array($this, 'uninstall')); //call function to remove the plugin
+	}
 
-    require_once plugin_dir_path( __FILE__ ) . 'inc/options.php' ;
-    require_once plugin_dir_path( __FILE__ ) . 'inc/metabox.php' ;
-    //new Add_Gift_Wrap_Options();
+	private function admin_init()
+	{
+		if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
+			require_once plugin_dir_path(__FILE__) . 'inc/options.php';
+			require_once plugin_dir_path(__FILE__) . 'inc/metabox.php';
+		}
+	}
+
+	private function random_string()
+	{
+		$length = 4;
+		$validCharacters = "abcdefghijklmnopqrstuxyvwz123456789";
+		$validCharNumber = strlen($validCharacters);
+
+		$result = "";
+
+		for ($i = 0; $i < $length; $i++) {
+			$index = mt_rand(0, $validCharNumber - 1);
+			$result .= $validCharacters[$index];
+		}
+		return '-'.$result;
+	}
+
+	public function install()
+	{
+		add_option( 'reveal-modal-string-random', $this->random_string(), '', 'yes' );
+	}
+	public function uninstall(){
+		if ( !defined( 'WP_UNINSTALL_PLUGIN' ) )
+			exit();
+		delete_option( 'reveal-modal-string-random' );
+	}
 }
-
-require_once plugin_dir_path( __FILE__ ) . 'inc/odin-metabox.php' ;
+new Reveal_Modal_Plugin();

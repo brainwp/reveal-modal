@@ -7,7 +7,7 @@
  */
 require_once plugin_dir_path( __FILE__ ) . '/odin-metabox.php' ;
 $_types = get_post_types('','names');
-$_meta = new Odin_Metabox(
+$_meta = new Reveal_Modal_Metabox(
     'reveal-modal-meta', // Metabox slug
     'Reveal Modal', // Metabox name
     $_types // post type
