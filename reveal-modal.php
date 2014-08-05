@@ -44,6 +44,7 @@ class Reveal_Modal_Plugin
 		add_action('wp_head', array($this, 'add_metatags')); //add meta tags
 		add_action('wp_head', array($this, 'scripts')); //add javascript & css
 		add_action('wp_footer', array($this, 'footer')); //add javascript & css
+		add_action('template_redirect', array($this, 'template')); //template files
 
 	}
 
@@ -53,6 +54,12 @@ class Reveal_Modal_Plugin
 			require_once plugin_dir_path(__FILE__) . 'inc/options.php';
 			require_once plugin_dir_path(__FILE__) . 'inc/metabox.php';
 		}
+	}
+
+	public function install()
+	{
+		delete_option('reveal-modal-string-random');
+		add_option('reveal-modal-string-random', $this->random_string(), '', 'yes');
 	}
 
 	private function random_string()
@@ -68,12 +75,6 @@ class Reveal_Modal_Plugin
 			$result .= $validCharacters[$index];
 		}
 		return '-' . $result;
-	}
-
-	public function install()
-	{
-		delete_option('reveal-modal-string-random');
-		add_option('reveal-modal-string-random', $this->random_string(), '', 'yes');
 	}
 
 	public function uninstall()
@@ -113,6 +114,41 @@ class Reveal_Modal_Plugin
 		echo '<div id="reveal-modal-id" class="reveal-modal" data-reveal>';
 		echo '<a class="close-reveal-modal">&#215;</a>';
 		echo '</div>';
+	}
+
+	public function template(){
+		global $wp_query;
+		$_post = get_post($wp_query->post->ID);
+		if(isset($_GET['reveal-modal-ajax']) && $_GET['reveal-modal-ajax'] == 'true'){
+			if($_post && strpos($_post->post_name, $this->option_string) !== false){
+				$_post_name = str_replace($this->option_string, '', $_post->post_name);
+				if(file_exists(get_template_directory() . '/reveal-' . $_post_name . '.php')){
+					include get_template_directory() . '/reveal-' . $_post_name . '.php';
+					die();
+				}
+				elseif(file_exists(get_template_directory() . '/reveal-'. $_post->post_name . '.php')){
+					include get_template_directory() . '/reveal-' . $_post->post_name . '.php';
+					die();
+				}
+				elseif(file_exists(get_template_directory() . '/reveal.php')){
+					include get_template_directory() . '/reveal.php';
+					die();
+				}
+				else{
+					include plugin_dir_path(__FILE__) . 'inc/template.php';
+					die();
+				}
+			}
+		}
+		else{
+			if($_post && strpos($_post->post_name, $this->option_string) !== false){
+				$_post_name = str_replace($this->option_string, '', $_post->post_name);
+				if(file_exists(get_template_directory() . '/page-' . $_post_name . '.php')){
+					include get_template_directory() . '/page-' . $_post_name . '.php';
+					die();
+				}
+			}
+		}
 	}
 }
 

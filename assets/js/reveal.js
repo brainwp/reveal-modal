@@ -464,9 +464,7 @@
 				}
 			});
 		}
-	})
-	$('a').each(function(){
-	})
+	});
 	$(document).ready(function(e){
 	})
 
