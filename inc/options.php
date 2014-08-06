@@ -14,15 +14,17 @@ $_options = new Odin_Plugin_Options(
 $_options->set_tabs(
     array(
         array(
-            'id' => 'reveal-modal-style',
-            'title' => __( 'Style/Visual', 'reveal-modal' ),
+            'id' => 'reveal-modal-options',
+            'title' => __( 'Options', 'reveal-modal' ),
         ),
     )
 );
+$_types = get_post_types('','names');
+$_types = implode(',',$_types);
 $_options->set_fields(
     array(
         'reveal-modal-style_section' => array(
-            'tab'   => 'reveal-modal-style',
+            'tab'   => 'reveal-modal-options',
             'title' => __( 'Change style options', 'reveal-modal' ),
             'fields' => array(
 				array(
@@ -52,6 +54,13 @@ $_options->set_fields(
                         'style' => 'width:32%;height:32px;'
                     ),
                     'description' => __( 'Change color of the modal (DEFAULT: #B1AFAF)', 'reveal-modal' ),
+                ),
+                array(
+                    'id' => 'reveal-modal-types',
+                    'label' => __( 'Valid post types', 'reveal-modal' ),
+                    'type' => 'text',
+                    'default' => $_types,
+                    'description' => __( 'Option visible in post types', 'reveal-modal' ),
                 ),
             )
         ),

@@ -6,7 +6,9 @@
  * Time: 18:33
  */
 require_once plugin_dir_path( __FILE__ ) . '/odin-metabox.php' ;
-$_types = get_post_types('','names');
+$_types = get_option( 'reveal-modal-options' );
+$_types = $_types['reveal-modal-types'];
+$_types = explode(',',$_types);
 $_meta = new Reveal_Modal_Metabox(
     'reveal-modal-meta', // Metabox slug
     'Reveal Modal', // Metabox name

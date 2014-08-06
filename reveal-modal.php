@@ -39,7 +39,7 @@ class Reveal_Modal_Plugin
 		$this->option_string = get_option('reveal-modal-string-random');
 		$this->modal_id = 'reveal-modal-id';
 		//require_once plugin_dir_path(__FILE__) . 'inc/class-options-helper.php';
-		$this->options = get_option( 'reveal-modal-style' );
+		$this->options = get_option( 'reveal-modal-options' );
 		add_action('wp_head', array($this, 'add_metatags')); //add meta tags
 		add_action('wp_head', array($this, 'scripts')); //add javascript & css
 		add_action('wp_footer', array($this, 'footer')); //add javascript & css
