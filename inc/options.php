@@ -41,7 +41,18 @@ $_options->set_fields(
                     'label' => __( 'Background Opacity', 'reveal-modal' ),
                     'type' => 'text',
 					'default' => '0.80',
-				)
+				),
+                array(
+                    'id'          => 'reveal-modal-closeicon-color',
+                    'label'       => __( 'Close icon color', 'reveal-modal' ),
+                    'type'        => 'input',
+                    'default'     => '#B1AFAF',
+                    'attributes'  => array( // Optional (html input elements)
+                        'type' => 'color',
+                        'style' => 'width:32%;height:32px;'
+                    ),
+                    'description' => __( 'Change color of the modal (DEFAULT: #B1AFAF)', 'reveal-modal' ),
+                ),
             )
         ),
     )

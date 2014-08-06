@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="matheusgimenez">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/public_html/dev/wp-content/plugins/reveal-modal" local="$PROJECT_DIR$" web="/reveal" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
+

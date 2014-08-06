@@ -1,29 +1,25 @@
 <?php
 /**
- * The WordPress Plugin Boilerplate.
  *
- * A foundation off of which to build well-documented WordPress plugins that
- * also follow WordPress Coding Standards and PHP best practices.
  *
- * @package   Plugin_Name
- * @author    Your Name <email@example.com>
+ * @package   Reveal Modal WP
+ * @author    Matheus Gimenez <contato@matheusgimenez.com.br>
  * @license   GPL-2.0+
  * @link      http://example.com
- * @copyright 2014 Your Name or Company Name
+ * @copyright 2014 Matheus Gimenez
  *
  * @wordpress-plugin
- * Plugin Name:       Reveal Lightbox
- * Plugin URI:        http://brasa.art.br
- * Description:       Reveal Lightbox
+ * Plugin Name:       Reveal Modal WP
+ * Plugin URI:        http://codeispoetry.info/plugins/reveal-modal
+ * Description:       Reveal Modal WP
  * Version:           1.0.0
- * Author:            Brasa
- * Plugin URI:        http://brasa.art.br
+ * Author:            Matheus Gimenez
+ * Plugin URI:        http://codeispoetry.info/plugins/reveal-modal
  * Text Domain:       reveal-modal
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
- * GitHub Plugin URI: dps coloco essa porra
- * WordPress-Plugin-Boilerplate: v2.6.1
+ * GitHub Plugin URI: https://github.com/brasadesign/reveal-modal
  */
 
 // If this file is called directly, abort.
@@ -120,8 +116,9 @@ class Reveal_Modal_Plugin
 		echo '</div>';
 		//options
 		echo '<style>';
-		echo '#'.$this->modal_id.'{background-color:'.$this->options['reveal-modal-color'].'}';
+		echo '#'.$this->modal_id.'{background-color:'.$this->options['reveal-modal-color'].';border:none !important}';
 		echo '.reveal-modal-bg{background:#000 !important;opacity:'.$this->options['reveal-modal-bg-opacity'].' !important}';
+        echo '.close-reveal-modal{color:'.$this->options['reveal-modal-closeicon-color'].' !important}';
 		echo '</style>';
 	}
 
