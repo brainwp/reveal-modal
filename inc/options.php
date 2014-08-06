@@ -14,51 +14,34 @@ $_options = new Odin_Plugin_Options(
 $_options->set_tabs(
     array(
         array(
-            'id' => 'reveal_general', // ID da aba e nome da entrada no banco de dados.
-            'title' => __( 'Configuration', 'reveal-modal' ), // Título da aba.
+            'id' => 'reveal-modal-style',
+            'title' => __( 'Style/Visual', 'reveal-modal' ),
         ),
-        array(
-            'id' => 'reveal_visual',
-            'title' => __( 'Appearance', 'reveal-modal' )
-        )
     )
 );
 $_options->set_fields(
     array(
-        'reveal_general_section' => array(
-            'tab'   => 'reveal_general', // Sessão da aba odin_general
-            'title' => __( 'Section Example', 'reveal-modal' ),
+        'reveal-modal-style_section' => array(
+            'tab'   => 'reveal-modal-style',
+            'title' => __( 'Change style options', 'reveal-modal' ),
             'fields' => array(
+				array(
+					'id'          => 'reveal-modal-color',
+					'label'       => __( 'Modal Color', 'reveal-modal' ),
+					'type'        => 'input',
+					'default'     => '#FFFFFF',
+					'attributes'  => array( // Optional (html input elements)
+						'type' => 'color',
+						'style' => 'width:32%;height:32px;'
+					),
+					'description' => __( 'Change color of the modal (DEFAULT: #FFFFFF)', 'reveal-modal' ),
+				),
                 array(
-                    'id' => 'field1',
-                    'label' => __( 'Field 1', 'odin' ),
+                    'id' => 'reveal-modal-bg-opacity',
+                    'label' => __( 'Background Opacity', 'reveal-modal' ),
                     'type' => 'text',
-                    'default' => 'Hello world',
-                    'description' => __( 'Descrition Example', 'odin' )
-                ),
-                array(
-                    'id' => 'field2',
-                    'label' => __( 'Field 2', 'odin' ),
-                    'type' => 'text'
-                )
-            )
-        ),
-        'reveal_visual_section' => array(
-            'tab'   => 'reveal_visual', // Sessão da aba odin_adsense
-            'title' => __( 'Blocos Adsense Homepage', 'odin' ),
-            'fields' => array(
-                array(
-                    'id' => 'banner1',
-                    'label' => __( 'Banner 1', 'odin' ),
-                    'type' => 'textarea',
-                    'default' => 'Default text',
-                    'description' => __( 'Descrition Example', 'odin' )
-                ),
-                array(
-                    'id' => 'banner2',
-                    'label' => __( 'Banner 2', 'odin' ),
-                    'type' => 'textarea'
-                )
+					'default' => '0.80',
+				)
             )
         ),
     )

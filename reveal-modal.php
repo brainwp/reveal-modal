@@ -41,6 +41,9 @@ class Reveal_Modal_Plugin
 		register_uninstall_hook(__FILE__, array($this, 'uninstall')); //call function to remove the plugin
 		//var option
 		$this->option_string = get_option('reveal-modal-string-random');
+		$this->modal_id = 'reveal-modal-id';
+		//require_once plugin_dir_path(__FILE__) . 'inc/class-options-helper.php';
+		$this->options = get_option( 'reveal-modal-style' );
 		add_action('wp_head', array($this, 'add_metatags')); //add meta tags
 		add_action('wp_head', array($this, 'scripts')); //add javascript & css
 		add_action('wp_footer', array($this, 'footer')); //add javascript & css
@@ -51,6 +54,7 @@ class Reveal_Modal_Plugin
 	private function admin_init()
 	{
 		if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
+			//echo get_current_blog_id();
 			require_once plugin_dir_path(__FILE__) . 'inc/options.php';
 			require_once plugin_dir_path(__FILE__) . 'inc/metabox.php';
 		}
@@ -114,36 +118,42 @@ class Reveal_Modal_Plugin
 		echo '<div id="reveal-modal-id" class="reveal-modal" data-reveal>';
 		echo '<a class="close-reveal-modal">&#215;</a>';
 		echo '</div>';
+		//options
+		echo '<style>';
+		echo '#'.$this->modal_id.'{background-color:'.$this->options['reveal-modal-color'].'}';
+		echo '.reveal-modal-bg{background:#000 !important;opacity:'.$this->options['reveal-modal-bg-opacity'].' !important}';
+		echo '</style>';
 	}
 
-	public function template(){
+	public function template()
+	{
 		global $wp_query;
 		$_post = get_post($wp_query->post->ID);
-		if(isset($_GET['reveal-modal-ajax']) && $_GET['reveal-modal-ajax'] == 'true'){
-			if($_post && strpos($_post->post_name, $this->option_string) !== false){
+		if (isset($_GET['reveal-modal-ajax']) && $_GET['reveal-modal-ajax'] == 'true') {
+			if ($_post && strpos($_post->post_name, $this->option_string) !== false) {
 				$_post_name = str_replace($this->option_string, '', $_post->post_name);
-				if(file_exists(get_template_directory() . '/reveal-' . $_post_name . '.php')){
+				if (file_exists(get_template_directory() . '/reveal-' . $_post_name . '.php')) {
 					include get_template_directory() . '/reveal-' . $_post_name . '.php';
+					echo '<a class="close-reveal-modal">&#215;</a>';
 					die();
-				}
-				elseif(file_exists(get_template_directory() . '/reveal-'. $_post->post_name . '.php')){
+				} elseif (file_exists(get_template_directory() . '/reveal-' . $_post->post_name . '.php')) {
 					include get_template_directory() . '/reveal-' . $_post->post_name . '.php';
+					echo '<a class="close-reveal-modal">&#215;</a>';
 					die();
-				}
-				elseif(file_exists(get_template_directory() . '/reveal.php')){
+				} elseif (file_exists(get_template_directory() . '/reveal.php')) {
 					include get_template_directory() . '/reveal.php';
+					echo '<a class="close-reveal-modal">&#215;</a>';
 					die();
-				}
-				else{
+				} else {
 					include plugin_dir_path(__FILE__) . 'inc/template.php';
+					echo '<a class="close-reveal-modal">&#215;</a>';
 					die();
 				}
 			}
-		}
-		else{
-			if($_post && strpos($_post->post_name, $this->option_string) !== false){
+		} else {
+			if ($_post && strpos($_post->post_name, $this->option_string) !== false) {
 				$_post_name = str_replace($this->option_string, '', $_post->post_name);
-				if(file_exists(get_template_directory() . '/page-' . $_post_name . '.php')){
+				if (file_exists(get_template_directory() . '/page-' . $_post_name . '.php')) {
 					include get_template_directory() . '/page-' . $_post_name . '.php';
 					die();
 				}
@@ -151,5 +161,4 @@ class Reveal_Modal_Plugin
 		}
 	}
 }
-
 new Reveal_Modal_Plugin();
