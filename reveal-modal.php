@@ -49,6 +49,7 @@ class Reveal_Modal_Plugin
 
 	private function admin_init()
 	{
+        load_plugin_textdomain( 'reveal-modal', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX)) {
 			//echo get_current_blog_id();
 			require_once plugin_dir_path(__FILE__) . 'inc/options.php';

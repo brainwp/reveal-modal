@@ -25,7 +25,7 @@ $_options->set_fields(
     array(
         'reveal-modal-style_section' => array(
             'tab'   => 'reveal-modal-options',
-            'title' => __( 'Change style options', 'reveal-modal' ),
+            'title' => '',
             'fields' => array(
 				array(
 					'id'          => 'reveal-modal-color',
@@ -53,14 +53,14 @@ $_options->set_fields(
                         'type' => 'color',
                         'style' => 'width:32%;height:32px;'
                     ),
-                    'description' => __( 'Change color of the modal (DEFAULT: #B1AFAF)', 'reveal-modal' ),
+                    'description' => __( 'Change color of close icon (DEFAULT: #B1AFAF)', 'reveal-modal' ),
                 ),
                 array(
                     'id' => 'reveal-modal-types',
                     'label' => __( 'Valid post types', 'reveal-modal' ),
                     'type' => 'text',
                     'default' => $_types,
-                    'description' => __( 'Option visible in post types', 'reveal-modal' ),
+                    //'description' => __( 'Option visible in post types', 'reveal-modal' ),
                 ),
             )
         ),
