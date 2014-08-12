@@ -120,7 +120,7 @@ class Reveal_Modal_Plugin
 	{
 		global $wp_query;
 		$_post = get_post($wp_query->post->ID);
-		if (isset($_GET['reveal-modal-ajax']) && $_GET['reveal-modal-ajax'] == 'true') {
+		if (isset($_GET['reveal-modal-ajax']) && $_GET['reveal-modal-ajax'] == 'true' && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			if ($_post && strpos($_post->post_name, $this->option_string) !== false) {
 				$_post_name = str_replace($this->option_string, '', $_post->post_name);
 				if (file_exists(get_template_directory() . '/reveal-' . $_post_name . '.php')) {
