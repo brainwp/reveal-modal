@@ -34,7 +34,7 @@ class Reveal_Modal_Plugin
 	{
 		$this->admin_init(); //call function to init metabox and options
 		register_activation_hook(__FILE__, array($this, 'install')); //call function to install the plugin
-		register_uninstall_hook(__FILE__, array($this, 'uninstall')); //call function to remove the plugin
+		//register_uninstall_hook(plugin_dir_path(__FILE__) . 'uninstall', 'uninstall'); //call function to remove the plugin
 		//var option
 		$this->option_string = get_option('reveal-modal-string-random');
 		$this->modal_id = 'reveal-modal-id';
@@ -75,13 +75,6 @@ class Reveal_Modal_Plugin
 			$result .= $validCharacters[$index];
 		}
 		return '-' . $result;
-	}
-
-	public function uninstall()
-	{
-		if (!defined('WP_UNINSTALL_PLUGIN'))
-			exit();
-		delete_option('reveal-modal-string-random');
 	}
 
 	public function add_metatags()
