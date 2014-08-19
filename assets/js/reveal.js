@@ -453,14 +453,14 @@
 	$(document).foundation();
 	var modal_id = 'reveal-modal-id';
 	var reveal_str = $('meta[name=reveal-modal-cfg-str]').attr('content');
-	$('a').on('click',function(e){
+	$('a').on('click', function (e) {
 		var _href = $(this).attr('href');
-		if(_href !== undefined && _href.lastIndexOf(reveal_str) != -1){
+		if (_href !== undefined && _href.lastIndexOf(reveal_str) != -1) {
 			e.preventDefault();
-			$('#'+modal_id).foundation('reveal', 'open', {
+			$('#' + modal_id).foundation('reveal', 'open', {
 				url: _href + '?reveal-modal-ajax=true',
-				success: function(data) {
-					$('#'+modal_id).prepend('<a class="close-reveal-modal">&#215;</a>');
+				success: function (data) {
+					$('#' + modal_id).prepend('<a class="close-reveal-modal">&#215;</a>');
 				}
 			});
 		}
