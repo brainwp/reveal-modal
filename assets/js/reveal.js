@@ -453,6 +453,7 @@
 	$(document).foundation();
 	var modal_id = 'reveal-modal-id';
 	var reveal_str = $('meta[name=reveal-modal-cfg-str]').attr('content');
+	var reveal_str_inload = $('meta[name=reveal-modal-cfg-inload]').attr('content');
 	$('a').on('click', function (e) {
 		var _href = $(this).attr('href');
 		if (_href !== undefined && _href.lastIndexOf(reveal_str) != -1) {
@@ -465,5 +466,7 @@
 			});
 		}
 	});
-
+	if(reveal_str_inload == 'true'){
+		$('#' + modal_id).foundation('reveal', 'open');
+	}
 }(jQuery));

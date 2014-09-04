@@ -62,6 +62,13 @@ $_options->set_fields(
                     'default' => $_types,
                     //'description' => __( 'Option visible in post types', 'reveal-modal' ),
                 ),
+	            array(
+		            'id'          => 'reveal-modal-inload',
+		            'label'       => __( 'Open pages with reveal modal in load', 'reveal-modal' ),
+		            'type'        => 'checkbox',
+		            'default'     => '',
+		           // 'description' => __( 'Descrition Example', 'odin' ), // Opcional
+	            )
             )
         ),
     )
