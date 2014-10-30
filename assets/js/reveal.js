@@ -454,19 +454,34 @@
 	var modal_id = 'reveal-modal-id';
 	var reveal_str = $('meta[name=reveal-modal-cfg-str]').attr('content');
 	var reveal_str_inload = $('meta[name=reveal-modal-cfg-inload]').attr('content');
+	var max_height = $(window).height();
+	var page_bg_id = 'reveal-modal-bg-page';
+	var reveal_bg_url = $('meta[name=reveal-modal-cfg-str-url]').attr('content');
+
 	$('a').on('click', function (e) {
 		var _href = $(this).attr('href');
 		if (_href !== undefined && _href.lastIndexOf(reveal_str) != -1) {
-			e.preventDefault();
-			$('#' + modal_id).foundation('reveal', 'open', {
-				url: _href + '?reveal-modal-ajax=true',
-				success: function (data) {
-					$('#' + modal_id).prepend('<a class="close-reveal-modal">&#215;</a>');
-				}
-			});
+			if (!$('#' + modal_id).hasClass('open')) {
+				e.preventDefault();
+				$('#' + modal_id).foundation('reveal', 'open', {
+					url: _href + '?reveal-modal-ajax=true',
+					success: function (data) {
+						$('#' + modal_id).prepend('<a class="close-reveal-modal">&#215;</a>');
+					}
+				});
+			}
 		}
 	});
-	if(reveal_str_inload == 'true'){
+	if (reveal_str_inload == 'true') {
 		$('#' + modal_id).foundation('reveal', 'open');
+		//console.log('str::::: '+$('#' + page_bg_id).attr('src'));
+		//$('#' + page_bg_id).css('height',max_height + 'px');
+		//$('#' + modal_id).foundation('reveal', 'open');
 	}
+	$(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+		if (reveal_str_inload == 'true') {
+			window.location.href = reveal_bg_url;
+		}
+	});
+
 }(jQuery));

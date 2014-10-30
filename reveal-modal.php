@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 class Reveal_Modal_Plugin {
 	public function __construct() {
-		define('REVEALWPURL', plugin_dir_url( __FILE__ ));
+		define( 'REVEALWPURL', plugin_dir_url( __FILE__ ) );
 		$this->admin_init(); //call function to init metabox and options
 		register_activation_hook( __FILE__, array( $this, 'install' ) ); //call function to install the plugin
 		//register_uninstall_hook(plugin_dir_path(__FILE__) . 'uninstall', 'uninstall'); //call function to remove the plugin
@@ -39,6 +39,9 @@ class Reveal_Modal_Plugin {
 		$this->modal_id      = 'reveal-modal-id';
 		//require_once plugin_dir_path(__FILE__) . 'inc/class-options-helper.php';
 		$this->options = get_option( 'reveal-modal-options' );
+		if(!empty($_GET['reveal-modal-iframe']) && $_GET['reveal-modal-iframe'] == 'true') {
+			add_filter('show_admin_bar', '__return_false');
+		}
 		add_action( 'wp_head', array( $this, 'add_metatags' ) ); //add meta tags
 		add_action( 'wp_head', array( $this, 'scripts' ) ); //add javascript & css
 		add_action( 'wp_footer', array( $this, 'footer' ) ); //add javascript & css
@@ -76,13 +79,14 @@ class Reveal_Modal_Plugin {
 	}
 
 	public function add_metatags() {
-		if(!is_404()){
+		if ( ! is_404() && is_single() ) {
 			global $wp_query;
 			$_post = get_post( $wp_query->post->ID );
-			if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false && !empty($this->options['reveal-modal-inload']) && $this->options['reveal-modal-inload'] == 1 ) {
+			if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false && ! empty( $this->options['reveal-modal-inload'] ) && $this->options['reveal-modal-inload'] == 1 ) {
 				echo '<meta name="reveal-modal-cfg-inload" content="true">';
 			}
 		}
+		echo '<meta name="reveal-modal-cfg-str-url" content="' . home_url() . '">';
 		echo '<meta name="reveal-modal-cfg-str" content="' . $this->option_string . '">';
 	}
 
@@ -107,11 +111,21 @@ class Reveal_Modal_Plugin {
 
 	public function footer() {
 		echo '<div id="reveal-modal-id" class="reveal-modal" data-reveal>';
-		if(!is_404()){
+		if ( ! is_404() && is_single() ) {
 			global $wp_query;
 			$_post = get_post( $wp_query->post->ID );
 			if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false ) {
 				$_post_name = str_replace( $this->option_string, '', $_post->post_name );
+				global $post;
+				$post = $_post;
+				$next_post  = get_next_post();
+				if ( ! empty( $next_post ) ) {
+					echo '<a class="next-post-reveal-nav" data-open-ajax="true" href="' . get_permalink( $next_post->ID ) . '">&#62;</a>';
+				}
+				$prev_post  = get_previous_post();
+				if ( ! empty( $prev_post ) ) {
+					echo '<a class="prev-post-reveal-nav" data-open-ajax="true" href="' . get_permalink( $prev_post->ID ) . '">&#60;</a>';
+				}
 				if ( file_exists( get_template_directory() . '/reveal-' . $_post_name . '.php' ) ) {
 					include get_template_directory() . '/reveal-' . $_post_name . '.php';
 					//echo '<a class="close-reveal-modal">&#215;</a>';
@@ -138,12 +152,22 @@ class Reveal_Modal_Plugin {
 	}
 
 	public function template() {
-		if(!is_404()){
+		if ( ! is_404() ) {
 			global $wp_query;
 			$_post = get_post( $wp_query->post->ID );
 			if ( isset( $_GET['reveal-modal-ajax'] ) && $_GET['reveal-modal-ajax'] == 'true' && ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
 				if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false ) {
 					$_post_name = str_replace( $this->option_string, '', $_post->post_name );
+					global $post;
+					$post = $_post;
+					$next_post  = get_next_post();
+					if ( ! empty( $next_post ) ) {
+						echo '<a class="next-post-reveal-nav" data-open-ajax="true" href="' . get_permalink( $next_post->ID ) . '">&#62;</a>';
+					}
+					$prev_post  = get_previous_post();
+					if ( ! empty( $prev_post ) ) {
+						echo '<a class="prev-post-reveal-nav" data-open-ajax="true" href="' . get_permalink( $prev_post->ID ) . '">&#60;</a>';
+					}
 					if ( file_exists( get_template_directory() . '/reveal-' . $_post_name . '.php' ) ) {
 						include get_template_directory() . '/reveal-' . $_post_name . '.php';
 						echo '<a class="close-reveal-modal">&#215;</a>';
@@ -164,12 +188,13 @@ class Reveal_Modal_Plugin {
 				}
 			} else {
 				if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false ) {
-					if(empty($this->options['reveal-modal-inload']) || $this->options['reveal-modal-inload'] != 1){
+					if ( !empty( $this->options['reveal-modal-inload'] ) || $this->options['reveal-modal-inload'] != 1 ) {
 						$_post_name = str_replace( $this->option_string, '', $_post->post_name );
-						if ( file_exists( get_template_directory() . '/page-' . $_post_name . '.php' ) ) {
-							include get_template_directory() . '/page-' . $_post_name . '.php';
-							die();
-						}
+						//if ( file_exists( get_template_directory() . '/page-' . $_post_name . '.php' ) ) {
+							include plugin_dir_path( __FILE__ ) . 'inc/template_inload.php';
+						echo '<iframe id="reveal-modal-bg-page" src="'.home_url().'?reveal-modal-iframe=true"/>';
+						//	die();
+						//}
 					}
 				}
 			}
