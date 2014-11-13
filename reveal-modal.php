@@ -152,7 +152,7 @@ class Reveal_Modal_Plugin {
 	}
 
 	public function template() {
-		if ( ! is_404() ) {
+		if ( ! is_404() && is_singular() ) {
 			global $wp_query;
 			$_post = get_post( $wp_query->post->ID );
 			if ( isset( $_GET['reveal-modal-ajax'] ) && $_GET['reveal-modal-ajax'] == 'true' && ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
@@ -187,8 +187,8 @@ class Reveal_Modal_Plugin {
 					}
 				}
 			} else {
-				if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false ) {
-					if ( !empty( $this->options['reveal-modal-inload'] ) || $this->options['reveal-modal-inload'] != 1 ) {
+				if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false && is_single() ) {
+					if ( !empty( $this->options['reveal-modal-inload'] ) ) {
 						$_post_name = str_replace( $this->option_string, '', $_post->post_name );
 						//if ( file_exists( get_template_directory() . '/page-' . $_post_name . '.php' ) ) {
 							include plugin_dir_path( __FILE__ ) . 'inc/template_inload.php';
@@ -201,5 +201,4 @@ class Reveal_Modal_Plugin {
 		}
 	}
 }
-
 new Reveal_Modal_Plugin();
