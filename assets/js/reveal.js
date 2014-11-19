@@ -482,6 +482,7 @@
 		if (reveal_str_inload == 'true') {
 			window.location.href = reveal_bg_url;
 		}
+		$('#' + modal_id).html('');
 	});
 
 }(jQuery));
