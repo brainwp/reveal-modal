@@ -448,10 +448,9 @@
 	}
 }(jQuery, window, window.document));
 //CODE BY MATHEUS GIMENEZ
-(function ($) {
-	'use strict';
-	$(document).foundation();
+jQuery(document).ready(function($) {
 	var modal_id = 'reveal-modal-id';
+	$(document).foundation();
 	var reveal_str = $('meta[name=reveal-modal-cfg-str]').attr('content');
 	var reveal_str_inload = $('meta[name=reveal-modal-cfg-inload]').attr('content');
 	var max_height = $(window).height();
@@ -478,11 +477,28 @@
 		//$('#' + page_bg_id).css('height',max_height + 'px');
 		//$('#' + modal_id).foundation('reveal', 'open');
 	}
-	$(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-		if (reveal_str_inload == 'true') {
-			window.location.href = reveal_bg_url;
+	var reveal_modal_wp_close = function(){
+		$('#' + modal_id).animate({
+				opacity: 0.0,
+				top: '-50%',
+			}, 'slow', function() {
+				$('#' + modal_id).attr('style','display:none;');
+				$('#' + modal_id).removeClass('open');
+				$('#' + modal_id).removeClass('close');
+			}
+		);
+		$('.reveal-modal-bg').fadeOut('slow');
+	}
+	$(document).on('click',function(e){
+		if($('#' + modal_id).is(':visible') && !$('#' + modal_id).is(e.target) && $('#' + modal_id).has(e.target).length === 0){
+			reveal_modal_wp_close();
 		}
-		$('#' + modal_id).html('');
+		if($('.close-reveal-modal').is(e.target)){
+			reveal_modal_wp_close();
+		}
 	});
-
-}(jQuery));
+	$('.close-reveal-modal').on('click',function(e){
+		reveal_modal_wp_close();
+		console.log('oi?');
+	});
+});
