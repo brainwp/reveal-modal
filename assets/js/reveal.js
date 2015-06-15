@@ -457,7 +457,7 @@ jQuery(document).ready(function($) {
 	var page_bg_id = 'reveal-modal-bg-page';
 	var reveal_bg_url = $('meta[name=reveal-modal-cfg-str-url]').attr('content');
 
-	$('a').on('click', function (e) {
+	$(document).on('click', 'a', function(e){
 		var _href = $(this).attr('href');
 		if (_href !== undefined && _href.lastIndexOf(reveal_str) != -1) {
 			if (!$('#' + modal_id).hasClass('open')) {
@@ -499,6 +499,5 @@ jQuery(document).ready(function($) {
 	});
 	$('.close-reveal-modal').on('click',function(e){
 		reveal_modal_wp_close();
-		console.log('oi?');
 	});
 });
