@@ -485,6 +485,7 @@ jQuery(document).ready(function($) {
 				$('#' + modal_id).attr('style','display:none;');
 				$('#' + modal_id).removeClass('open');
 				$('#' + modal_id).removeClass('close');
+				$('#' + modal_id).html('');
 			}
 		);
 		$('.reveal-modal-bg').fadeOut('slow');
