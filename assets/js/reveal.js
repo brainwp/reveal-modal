@@ -482,6 +482,7 @@ jQuery(document).ready(function($) {
 				opacity: 0.0,
 				top: '-50%',
 			}, 'slow', function() {
+				$('#' + modal_id).trigger('closed.fndtn.reveal');
 				$('#' + modal_id).attr('style','display:none;');
 				$('#' + modal_id).removeClass('open');
 				$('#' + modal_id).removeClass('close');

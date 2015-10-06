@@ -46,6 +46,7 @@ class Reveal_Modal_Plugin {
 		add_action( 'wp_head', array( $this, 'scripts' ) ); //add javascript & css
 		add_action( 'wp_footer', array( $this, 'footer' ) ); //add javascript & css
 		add_action( 'template_redirect', array( $this, 'template' ) ); //template files
+		add_action( 'init', array( $this, 'network_install' ) ); //add meta tags
 
 	}
 
@@ -63,6 +64,11 @@ class Reveal_Modal_Plugin {
 		add_option( 'reveal-modal-string-random', $this->random_string(), '', 'yes' );
 	}
 
+	public function network_install() {
+		if ( ! get_option( 'reveal-modal-string-random' ) ) {
+			add_option( 'reveal-modal-string-random', $this->random_string(), '', 'yes' );
+		}
+	}
 	private function random_string() {
 		$length          = 4;
 		$validCharacters = "abcdefghijklmnopqrstuxyvwz123456789";
