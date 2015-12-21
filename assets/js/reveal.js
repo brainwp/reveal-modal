@@ -459,7 +459,13 @@ jQuery(document).ready(function($) {
 
 	$(document).on('click', 'a', function(e){
 		var _href = $(this).attr('href');
+
 		if (_href !== undefined && _href.lastIndexOf(reveal_str) != -1) {
+			var isInIframe = window.frameElement && window.frameElement.nodeName == "IFRAME";
+
+			if ( isInIframe ) {
+				return;
+			}
 			if (!$('#' + modal_id).hasClass('open')) {
 				e.preventDefault();
 				$('#' + modal_id).foundation('reveal', 'open', {

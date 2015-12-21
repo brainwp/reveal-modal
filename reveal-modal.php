@@ -198,7 +198,7 @@ class Reveal_Modal_Plugin {
 						$_post_name = str_replace( $this->option_string, '', $_post->post_name );
 						//if ( file_exists( get_template_directory() . '/page-' . $_post_name . '.php' ) ) {
 							include plugin_dir_path( __FILE__ ) . 'inc/template_inload.php';
-						echo '<iframe id="reveal-modal-bg-page" src="'.home_url().'?reveal-modal-iframe=true"/>';
+						echo '<iframe id="reveal-modal-bg-page" src="'.home_url().'?reveal-modal-iframe=true" scrolling="no"/>';
 						//	die();
 						//}
 					}
