@@ -36,5 +36,7 @@ This section describes how to install the plugin and get it working.
 == Changelog ==
 
 = 1.0 =
-* First functional version
+First functional version
 
+= 1.1.0 =
+Fix inload open

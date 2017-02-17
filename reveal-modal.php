@@ -6,15 +6,15 @@
  * @author    Matheus Gimenez <contato@matheusgimenez.com.br>
  * @license   GPL-2.0+
  * @link      http://example.com
- * @copyright 2014 Matheus Gimenez
+ * @copyright 2017 Matheus Gimenez
  *
  * @wordpress-plugin
  * Plugin Name:       Reveal Modal WP
- * Plugin URI:        http://codeispoetry.info/plugins/reveal-modal
+ * Plugin URI:        http://brasa.art.br
  * Description:       Reveal Modal WP
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Matheus Gimenez
- * Plugin URI:        http://codeispoetry.info/plugins/reveal-modal
+ * Plugin URI:        http://brasa.art.br
  * Text Domain:       reveal-modal
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
