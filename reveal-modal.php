@@ -85,7 +85,7 @@ class Reveal_Modal_Plugin {
 	}
 
 	public function add_metatags() {
-		if ( ! is_404() && is_single() ) {
+		if ( ! is_404() && is_singular() && ! isset( $_REQUEST[ 'reveal-modal-ajax'] ) ) {
 			global $wp_query;
 			$_post = get_post( $wp_query->post->ID );
 			if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false && ! empty( $this->options['reveal-modal-inload'] ) && $this->options['reveal-modal-inload'] == 1 ) {
@@ -193,7 +193,7 @@ class Reveal_Modal_Plugin {
 					}
 				}
 			} else {
-				if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false && is_single() ) {
+				if ( $_post && strpos( $_post->post_name, $this->option_string ) !== false && is_singular() ) {
 					if ( !empty( $this->options['reveal-modal-inload'] ) ) {
 						$_post_name = str_replace( $this->option_string, '', $_post->post_name );
 						//if ( file_exists( get_template_directory() . '/page-' . $_post_name . '.php' ) ) {

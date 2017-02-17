@@ -478,10 +478,13 @@ jQuery(document).ready(function($) {
 		}
 	});
 	if (reveal_str_inload == 'true') {
-		$('#' + modal_id).foundation('reveal', 'open');
-		//console.log('str::::: '+$('#' + page_bg_id).attr('src'));
-		//$('#' + page_bg_id).css('height',max_height + 'px');
-		//$('#' + modal_id).foundation('reveal', 'open');
+		$('#' + modal_id).foundation('reveal', 'open', {
+			url: window.location.href + '?reveal-modal-ajax=true',
+			success: function (data) {
+				$('#' + modal_id).prepend('<a class="close-reveal-modal">&#215;</a>');
+			}
+		});
+		$('#' + page_bg_id).css('height',max_height + 'px');
 	}
 	var reveal_modal_wp_close = function(){
 		$('#' + modal_id).animate({
@@ -499,7 +502,12 @@ jQuery(document).ready(function($) {
 	}
 	$(document).on('click',function(e){
 		if($('#' + modal_id).is(':visible') && !$('#' + modal_id).is(e.target) && $('#' + modal_id).has(e.target).length === 0){
-			reveal_modal_wp_close();
+			if (reveal_str_inload == 'true') {
+				window.location = reveal_bg_url;
+				e.preventDefault();
+			} else {
+				reveal_modal_wp_close();
+			}
 		}
 		if($('.close-reveal-modal').is(e.target)){
 			reveal_modal_wp_close();
