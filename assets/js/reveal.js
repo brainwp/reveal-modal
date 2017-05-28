@@ -456,6 +456,20 @@ jQuery(document).ready(function($) {
 	var max_height = $(window).height();
 	var page_bg_id = 'reveal-modal-bg-page';
 	var reveal_bg_url = $('meta[name=reveal-modal-cfg-str-url]').attr('content');
+	var reveal_modal_wp_close = function(){
+		$('#' + modal_id).animate({
+				opacity: 0.0,
+				top: '-50%',
+			}, 'slow', function() {
+				$('#' + modal_id).trigger('closed.fndtn.reveal');
+				$('#' + modal_id).attr('style','display:none;');
+				$('#' + modal_id).removeClass('open');
+				$('#' + modal_id).removeClass('close');
+				$('#' + modal_id).html('');
+			}
+		);
+		$('.reveal-modal-bg').fadeOut('slow');
+	}
 
 	$(document).on('click', 'a', function(e){
 		var _href = $(this).attr('href');
@@ -466,8 +480,27 @@ jQuery(document).ready(function($) {
 			if ( isInIframe ) {
 				return;
 			}
-			if (!$('#' + modal_id).hasClass('open')) {
-				e.preventDefault();
+			e.preventDefault();
+			if ( $('#' + modal_id).hasClass('open') ) {
+				reveal_modal_wp_close();
+				$('#' + modal_id).animate({
+					opacity: 0.0,
+					top: '-50%',
+					}, 'slow', function() {
+						$('#' + modal_id).trigger('closed.fndtn.reveal');
+						$('#' + modal_id).attr('style','display:none;');
+						$('#' + modal_id).removeClass('open');
+						$('#' + modal_id).removeClass('close');
+						$('#' + modal_id).html('');
+						$('#' + modal_id).foundation('reveal', 'open', {
+							url: _href + '?reveal-modal-ajax=true',
+							success: function (data) {
+								$('#' + modal_id).prepend('<a class="close-reveal-modal">&#215;</a>');
+							}
+						});
+					}
+				);
+			} else {
 				$('#' + modal_id).foundation('reveal', 'open', {
 					url: _href + '?reveal-modal-ajax=true',
 					success: function (data) {
@@ -485,20 +518,6 @@ jQuery(document).ready(function($) {
 			}
 		});
 		$('#' + page_bg_id).css('height',max_height + 'px');
-	}
-	var reveal_modal_wp_close = function(){
-		$('#' + modal_id).animate({
-				opacity: 0.0,
-				top: '-50%',
-			}, 'slow', function() {
-				$('#' + modal_id).trigger('closed.fndtn.reveal');
-				$('#' + modal_id).attr('style','display:none;');
-				$('#' + modal_id).removeClass('open');
-				$('#' + modal_id).removeClass('close');
-				$('#' + modal_id).html('');
-			}
-		);
-		$('.reveal-modal-bg').fadeOut('slow');
 	}
 	$(document).on('click',function(e){
 		if($('#' + modal_id).is(':visible') && !$('#' + modal_id).is(e.target) && $('#' + modal_id).has(e.target).length === 0){
