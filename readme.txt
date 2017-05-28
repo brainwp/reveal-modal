@@ -40,3 +40,5 @@ First functional version
 
 = 1.1.0 =
 Fix inload open
+= 1.1.1 =
+Fix nested links
