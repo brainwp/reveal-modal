@@ -12,7 +12,7 @@
  * Plugin Name:       Reveal Modal WP
  * Plugin URI:        http://brasa.art.br
  * Description:       Reveal Modal WP
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            Matheus Gimenez
  * Plugin URI:        http://brasa.art.br
  * Text Domain:       reveal-modal
