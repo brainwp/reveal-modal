@@ -68,6 +68,13 @@ $_options->set_fields(
 		            'type'        => 'checkbox',
 		            'default'     => '',
 		           // 'description' => __( 'Descrition Example', 'odin' ), // Opcional
+	            ),
+	            array(
+		            'id'          => 'reveal-modal-cfg-str',
+		            'label'       => __( 'Set string at the end of the post slug', 'reveal-modal' ),
+		            'type'        => 'text',
+		            'default'     => get_option( 'reveal-modal-string-random', '-modal' ),
+		           // 'description' => __( 'Descrition Example', 'odin' ), // Opcional
 	            )
             )
         ),

@@ -35,10 +35,11 @@ class Reveal_Modal_Plugin {
 		register_activation_hook( __FILE__, array( $this, 'install' ) ); //call function to install the plugin
 		//register_uninstall_hook(plugin_dir_path(__FILE__) . 'uninstall', 'uninstall'); //call function to remove the plugin
 		//var option
+		$this->options = get_option( 'reveal-modal-options' );
+		add_filter( 'option_reveal-modal-string-random', array( $this, 'change_modal_string' ) );
 		$this->option_string = get_option( 'reveal-modal-string-random' );
 		$this->modal_id      = 'reveal-modal-id';
 		//require_once plugin_dir_path(__FILE__) . 'inc/class-options-helper.php';
-		$this->options = get_option( 'reveal-modal-options' );
 		if(!empty($_GET['reveal-modal-iframe']) && $_GET['reveal-modal-iframe'] == 'true') {
 			add_filter('show_admin_bar', '__return_false');
 		}
@@ -47,9 +48,15 @@ class Reveal_Modal_Plugin {
 		add_action( 'wp_footer', array( $this, 'footer' ) ); //add javascript & css
 		add_action( 'template_redirect', array( $this, 'template' ) ); //template files
 		add_action( 'init', array( $this, 'network_install' ) ); //add meta tags
-
 	}
-
+	public function change_modal_string( $string ) {
+		if ( $this->options && is_array( $this->options ) ) {
+			if( isset( $this->options[ 'reveal-modal-cfg-str'] ) && $this->options[ 'reveal-modal-cfg-str'] && ! empty( $this->options[ 'reveal-modal-cfg-str'] ) ) {
+				$string = $this->options[ 'reveal-modal-cfg-str'];
+			}
+		}
+		return $string;
+	}
 	private function admin_init() {
 		load_plugin_textdomain( 'reveal-modal', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
@@ -60,8 +67,9 @@ class Reveal_Modal_Plugin {
 	}
 
 	public function install() {
-		delete_option( 'reveal-modal-string-random' );
-		add_option( 'reveal-modal-string-random', $this->random_string(), '', 'yes' );
+		if ( ! get_option( 'reveal-modal-string-random' ) ) {
+			add_option( 'reveal-modal-string-random', $this->random_string(), '', 'yes' );
+		}
 	}
 
 	public function network_install() {
